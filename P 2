@@ -1,0 +1,81 @@
+#include <iostream>
+using namespace std;
+
+#define MAX 10   // Maximum stack size
+
+class SignalStack {
+private:
+    float stackArr[MAX];
+    int top;
+
+public:
+    SignalStack() { top = -1; }
+
+    // PUSH Operation
+    void push(float value) {
+        if (top == MAX - 1) {
+            cout << "Stack is FULL! Cannot push " << value << " volts.\n";
+        } else {
+            stackArr[++top] = value;
+            cout << value << " volts pushed into the stack.\n";
+        }
+    }
+
+    // POP Operation
+    float pop() {
+        if (top == -1) {
+            cout << "Stack is EMPTY! No signals to pop.\n";
+            return -1;  // Indicates empty
+        } else {
+            return stackArr[top--];
+        }
+    }
+
+    // Check if stack is empty
+    bool isEmpty() {
+        return (top == -1);
+    }
+
+    // Check if stack is full
+    bool isFull() {
+        return (top == MAX - 1);
+    }
+};
+
+int main() {
+    SignalStack s;
+    int choice;
+    float voltage;
+
+    while (true) {
+        cout << "\n--- Electrical Signal Stack Processing ---\n";
+        cout << "1. Push Signal (Voltage Reading)\n";
+        cout << "2. Pop and Process Signal (Reverse Order)\n";
+        cout << "3. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            cout << "Enter voltage reading: ";
+            cin >> voltage;
+            s.push(voltage);
+            break;
+
+        case 2:
+            if (!s.isEmpty()) {
+                cout << "Processed Signal (Volts): " << s.pop() << endl;
+            } else {
+                cout << "Stack is EMPTY! No signals to process.\n";
+            }
+            break;
+
+        case 3:
+            cout << "Exiting...\n";
+            return 0;
+
+        default:
+            cout << "Invalid choice! Try again.\n";
+        }
+    }
+}
