@@ -1,0 +1,74 @@
+#include <iostream>
+using namespace std;
+
+#define MAX 10   // Maximum stack size
+
+class PWMStack {
+private:
+    int stackArr[MAX];
+    int top;
+
+public:
+    PWMStack() { top = -1; }
+
+    // PUSH: Store PWM duty cycle
+    void push(int duty) {
+        if (top == MAX - 1) {
+            cout << "Stack Overflow! Cannot store duty cycle: " << duty << "%\n";
+        } else {
+            stackArr[++top] = duty;
+            cout << "Stored PWM duty cycle: " << duty << "%\n";
+        }
+    }
+
+    // POP: Retrieve PWM duty cycle in reverse order
+    int pop() {
+        if (top == -1) {
+            cout << "Stack Underflow! No PWM pulses to apply.\n";
+            return -1;
+        } else {
+            return stackArr[top--];
+        }
+    }
+
+    bool isEmpty() { return top == -1; }
+    bool isFull()  { return top == MAX - 1; }
+};
+
+int main() {
+    PWMStack pwm;
+    int choice, duty;
+
+    while (true) {
+        cout << "\n--- DC Motor PWM Pulse Stack ---\n";
+        cout << "1. Push PWM Duty Cycle\n";
+        cout << "2. Pop & Apply PWM Pulse (Reverse Order)\n";
+        cout << "3. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            cout << "Enter PWM duty cycle (%): ";
+            cin >> duty;
+            pwm.push(duty);
+            break;
+
+        case 2:
+            if (!pwm.isEmpty()) {
+                cout << "Applying PWM Duty Cycle: " << pwm.pop() << "%\n";
+            }
+            else {
+                pwm.pop();   // triggers underflow message
+            }
+            break;
+
+        case 3:
+            cout << "Exiting program...\n";
+            return 0;
+
+        default:
+            cout << "Invalid choice! Try again.\n";
+        }
+    }
+}
